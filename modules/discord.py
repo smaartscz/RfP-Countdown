@@ -32,7 +32,7 @@ def send_webhook(type="None", days=0, gif_url="None", unix_time="None"):
                 response = webhook.execute() 
                 print(colors.green + f"Webhook sent! Response: {response}" + colors.reset)
         else:
-            message = f'Dobré poledne a dobrou chuť, <@&{role}> je za **{days} dní**. (Podle discordu: <t:{unix_time}:R>)'
+            message = f'Dobré poledne a dobrou chuť, <@&{role}> je za {days} dní. (Podle discordu: <t:{unix_time}:R>)'
             webhook = DiscordWebhook(url=webhook_url, content=message)  
 
             #Send webhook

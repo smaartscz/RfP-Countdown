@@ -32,9 +32,8 @@ discord.send_webhook(type="startup", gif_url=startup_gif)
 print(colors.yellow + "Setting up schedule!"+ colors.reset)
 schedule.every().day.at(scheduled_time).do(discord.prepare_webhook)
 
-
 print(colors.green + "Startup successful!" + colors.reset)
-discord.prepare_webhook()
+
 while True:
      schedule.run_pending()
-     time.sleep(1)  # Sleep to avoid high CPU usage
+     time.sleep(10)  # Sleep to avoid high CPU usage
