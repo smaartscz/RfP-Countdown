@@ -16,7 +16,7 @@
                             <div class="column key">{{ item.key }}</div>
                             <div class="column old-value">{{ item.old_value }}</div>
                             <div class="column new-value">
-                                <input type="text" name="{{ section.section }}_{{ item.key }}" value="{{ item.new_value }}">
+                                <input type="text" name="{{ section.section }}%%{{ item.key }}" value="{{ item.new_value }}">
                             </div>
                         </div>
                     {% endfor %}

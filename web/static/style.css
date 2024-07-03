@@ -1,52 +1,99 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 body {
     background-color: #2A2D34;
     color: #E6E8E6;
     font-family: 'Roboto', sans-serif;
-    text-align: center; 
+    text-align: center;
+    padding: 20px;
 }
 .container {
     width: 80%;
-    margin: auto;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #333740;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #E6E8E6;
+}
+h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #E6E8E6;
+    border-bottom: 2px solid #444A52;
+    padding-bottom: 5px;
 }
 .section-container {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 .row {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+    align-items: center;
 }
 .column {
     flex: 1;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #444A52;
+    margin: 0 5px;
+    border-radius: 5px;
+}
+.column.key {
+    background-color: #404552;
+    font-weight: 500;
 }
 .old-value {
     background-color: #2A2D34;
+    color: #888;
 }
 .new-value input {
     width: 100%;
-    padding: 5px;
+    padding: 10px;
+    border: 1px solid #444A52;
+    border-radius: 5px;
+    background-color: #333740;
+    color: #E6E8E6;
+    font-family: 'Roboto', sans-serif;
+    outline: none;
+}
+.new-value input::placeholder {
+    color: #888;
 }
 .btn {
     background-color: #004FFF;
     margin: 1rem auto;
-    padding: 1rem 1.5rem;
+    padding: 1rem 2rem;
     font-size: 1.3rem;
     border-radius: 5px;
     border: none;
     color: #E6E8E6;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+    display: block;
+    width: fit-content;
 }
 .btn:hover {
     background-color: #003BB5;
 }
 .error {
     color: #DF2935;
+}
+pre {
+    text-align: left;
+    background-color: #404552;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    color: #E6E8E6;
 }

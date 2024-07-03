@@ -6,11 +6,13 @@ app = Flask(__name__, template_folder='../web/', static_folder='../web/static')
 #Print basic Index.html that will show us redirects.
 @app.route('/')
 def index():
+    '''Show default page'''
     return render_template('index.html')
 
 #Show settings and it's values.
 @app.route('/settings', methods=['POST', 'GET'])
 def settings():
+    '''Generate data for HTML'''
     if request.method == 'POST':
         # Handle form submission here if necessary
         pass
@@ -41,16 +43,22 @@ def settings():
 #Update values
 @app.route('/update', methods=['POST'])
 def update_settings():
-    # Handle the submitted form data here
-    # Example: Iterate over form data and update the configuration as needed
+    '''Handle the submitted form data'''
+
     for key, value in request.form.items():
-        
-        print(key)
-        print(value)
-        # Example: Update the configuration with new values
-        # update_configuration_function(key, value)
+        if value:
+            #Format data for saving
+            key = key.split('%%')
+            print(key)
+            section = key[0]
+            key = key[1]
+            configuration.modify(action="modify", section=section, key=key, value=value )
         pass
     return redirect(url_for('index'))
 
 def start():
-    app.run(debug=True)
+    enabled = configuration.get_value(section="Web", key="enabled")
+    port = configuration.get_value(section="Web", key="port")
+    if enabled == "True":
+        app.run(debug=True, use_reloader=False, port=port)
+        print(colors.green + "Web started" + colors.reset)

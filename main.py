@@ -2,8 +2,9 @@ import modules.configuration as configuration
 import modules.discord as discord
 from modules.basic import clear
 import modules.colors as colors
-import os, schedule, time, sys
+import os, schedule, time
 import modules.web as web
+import threading
 
 if os.name != "nt":
      os.environ.get("TERM")
@@ -21,7 +22,12 @@ scheduled_time = configuration.get_value("General", "ping_at")
 startup_gif = configuration.get_value("General", "startup")
 print(colors.green + "Configuration loaded!" + colors.reset)
 
-web.start()
+#Start Web UI
+print(colors.yellow + "Starting web" + colors.reset)
+web_thread = threading.Thread(target=web.start)
+web_thread.daemon = True  # Daemonize thread to exit when main thread exits
+web_thread.start()
+
 #Send startup message
 discord.send_webhook(type="startup", gif_url=startup_gif)
 

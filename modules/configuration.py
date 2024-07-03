@@ -13,6 +13,10 @@ def create():
     rfp_date = input("Unix date for RfP: ")
     ping_at = input("Ping at: ")
     startup_gif = input("Type of startup image(png/jpg/gif):")
+    web_enabled = input(f"Do you wanna enable WebUI? {colors.red} Before enabling please make sure nobody can access it without your permission! For more informations visit my github {colors.reset}: ") or False
+    if(web_enabled == "y" or web_enabled == "yes"):
+        web_enabled = True
+    web_port = input("Please specify webport to use:") or 5000
 
     #Add basic information
     config.add_section("General")
@@ -25,7 +29,15 @@ def create():
     config.set("General", "role_id", role_id)
     config.set("General", "ping_at", ping_at)
     config.set("General", "startup", startup_gif)
-    
+
+    #Web section
+    config.add_section("Web")
+    config.set("Web", "created", get_time())
+    config.set("Web", "modified", get_time())
+    config.set("Web", "enabled", str(web_enabled))
+    config.set("Web", "port", web_port)
+
+    #Rock for People Section
     config.add_section("RockForPeople")
     config.set("RockForPeople", "unix_date", rfp_date)
     config.set("RockForPeople", "created", get_time())
@@ -81,22 +93,23 @@ def save(section, key, value):
             config.write(f)   
     print(colors.green + "Config saved!" + colors.reset) 
 
-def modify(action, section, key="", value=""):
+def modify(action="", section=None, key="", value=""):
     config.read("config.cfg")
     action = action.lower()
-    
-    #Delete section
-    if action == "2":
-        print(colors.yellow + f"Removing section: {section}" + colors.reset)
-        config.remove_section(section)
+    if section != None:
+        #Delete section
+        if action == "remove":
+            print(colors.yellow + f"Removing section: {section}" + colors.reset)
+            config.remove_section(section)
+            print(colors.green + "Section removed!" + colors.reset)
+        #Modify section
+        if action == "modify":
+            print(colors.yellow + f"Modifing section: {section}, key: {key}, value: {value}" + colors.reset)
+            save(section, key, value)
+        else:
+            print(colors.red + f"Unknown action!{action}" + colors.reset)
     else:
-        print(colors.yellow + f"Modifing section: {section}, key: {key}, value: {value}" + colors.reset)
-        save(section, key, value)
-
-    #Save file
-    with open("config.cfg", "w") as f:
-        config.write(f)
-    print(colors.green + "Section removed!" + colors.reset)
+        print(colors.red + f"You did not specify section!" +colors.reset)
 
 def get_section():
     sections = "\n"
