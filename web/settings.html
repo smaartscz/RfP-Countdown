@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Settings</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Settings Data</h1>
+        <form method="POST" action="{{ url_for('update_settings') }}">
+            {% for section in data %}
+                <h2>{{ section.section }}</h2>
+                <div class="section-container">
+                    {% for item in section['items'] %}
+                        <div class="row">
+                            <div class="column key">{{ item.key }}</div>
+                            <div class="column old-value">{{ item.old_value }}</div>
+                            <div class="column new-value">
+                                <input type="text" name="{{ section.section }}_{{ item.key }}" value="{{ item.new_value }}">
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <div class="row">
+                <button type="submit" class="btn">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
