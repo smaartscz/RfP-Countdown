@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manual Ping</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        function toggleUserIdField() {
+            const pingEveryoneCheckbox = document.getElementById('everyone');
+            const userIdField = document.getElementById('userId');
+            userIdField.disabled = pingEveryoneCheckbox.checked;
+        }
+        function togglePingEveryoneCheckbox() {
+            const pingEveryoneCheckbox = document.getElementById('everyone');
+            const userIdField = document.getElementById('userId');
+            if (userIdField.value.trim() !== "") {
+                pingEveryoneCheckbox.disabled = true;
+            } else {
+                pingEveryoneCheckbox.disabled = false;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Manual Ping</h1>
+        <form method="POST" action="{{ url_for('manual_ping') }}">
+            <div class="section-container">
+                <div class="form-inline">
+                    <div class="form-group form-group-inline">
+                        <label for="everyone" class="form-label-inline">Ping everyone:</label>
+                        <input type="checkbox" id="everyone" name="everyone" onclick="toggleUserIdField()">
+                    </div>
+                    <div class="form-group">
+                        <label for="userId">User ID:</label>
+                        <input type="number" id="userId" name="userId" oninput="togglePingEveryoneCheckbox()">
+                    </div>
+                </div>
+                <div class="grid">
+                    <button class="btn btn-cancel" onclick="history.back()">Go back</button>
+                    <button type="submit" class="btn btn-green">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -140,7 +140,6 @@ def modify(action="", section=None, key="", value=""):
         print(colors.red + f"You did not specify section!" +colors.reset)
 
 def get_section():
-    load()
     sections = "\n"
     for section in config:
         if section != "DEFAULT":
@@ -148,14 +147,12 @@ def get_section():
     return sections
 
 def get_key(section):
-    load()
     keys = "\n"
     for key in config[section]:
         keys += key + "\n"
     return keys
 
 def get_value(section, key):
-    load()
     try:
         value = config[section][key]
         return value

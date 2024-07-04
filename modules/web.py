@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, send_from_
 import modules.configuration as configuration
 import modules.colors as colors
 import modules.schedule_handler as schedule_handler
+import modules.discord as discord
 import os, datetime
 app = Flask(__name__, template_folder='../web/', static_folder='../web/static')
 
@@ -131,6 +132,21 @@ def delete_day(day):
         os.remove(image_path)
         configuration.modify(action="remove_key",section="SpecialDays",key=day)
     return redirect(url_for('special_days'))
+
+#Show statistics.
+@app.route('/manual_ping', methods=['POST', 'GET'])
+def manual_ping():
+    '''Generate and process data for manual_ping HTML'''
+    
+    if request.method == "GET":
+        return render_template('manual_ping.html')
+    if request.method == "POST":
+        for key, value in request.form.items():
+            if key == "everyone" and value == "on":
+                discord.manual(everyone="True")
+            elif key == "userId":
+                discord.manual(userid=value)
+        return render_template('manual_ping.html')
 
 def start():
     enabled = configuration.get_value(section="Web", key="enabled")
