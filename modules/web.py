@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 import modules.configuration as configuration
 import modules.colors as colors
+import modules.schedule_handler as schedule_handler
 import os
 app = Flask(__name__, template_folder='../web/', static_folder='../web/static')
 
@@ -79,10 +80,11 @@ def update_settings():
         if value:
             #Format data for saving
             key = key.split('%%')
-            print(key)
             section = key[0]
             key = key[1]
             configuration.modify(action="modify", section=section, key=key, value=value )
+            if section == "General" and key == "ping_at":
+                schedule_handler.update(time=value)
         pass
     return redirect(url_for('index'))
 
@@ -127,11 +129,12 @@ def delete_day(day):
 def start():
     enabled = configuration.get_value(section="Web", key="enabled")
     port = configuration.get_value(section="Web", key="port")
+    host = configuration.get_value(section="Web", key="host")
     debug = configuration.get_value(section="Web", key="debug")
     if debug == "True":
         debug = True
     else: 
         debug = False
     if enabled == "True":
-        app.run(debug=debug, use_reloader=False, port=port)
+        app.run(debug=debug, use_reloader=False, port=port, host=host)
         print(colors.green + "Web started" + colors.reset)

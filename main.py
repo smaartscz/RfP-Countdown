@@ -3,6 +3,7 @@ import modules.discord as discord
 from modules.basic import clear
 import modules.colors as colors
 import modules.streak as streak
+import modules.schedule_handler as schedule_handler
 import os, schedule, time
 import modules.web as web
 import threading
@@ -19,7 +20,6 @@ if not os.path.isfile("config.cfg"):
 #Load config and set up schedule
 print(colors.yellow + "Loading configuration!" + colors.reset)
 config = configuration.load()
-scheduled_time = configuration.get_value("General", "ping_at")
 startup_gif = configuration.get_value("General", "startup")
 print(colors.green + "Configuration loaded!" + colors.reset)
 
@@ -33,8 +33,7 @@ web_thread.start()
 discord.send_webhook(type="startup", gif_url=startup_gif)
 
 #Setup schedule
-print(colors.yellow + "Setting up schedule!"+ colors.reset)
-schedule.every().day.at(scheduled_time).do(discord.prepare_webhook)
+schedule_handler.update()
 
 #Reset streak
 streak.reset()

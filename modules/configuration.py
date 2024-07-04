@@ -14,9 +14,12 @@ def create():
     ping_at = input("Ping at: ")
     startup_gif = input("Type of startup image(png/jpg/gif): ")
     web_enabled = input(f"Do you wanna enable WebUI? {colors.red} Before enabling please make sure nobody can access it without your permission! For more informations visit my github {colors.reset}: ") or False
-    if(web_enabled == "y" or web_enabled == "yes"):
+    if(web_enabled == "y" or web_enabled == "yes" or web_enabled == "True"):
         web_enabled = True
-    web_port = input("Please specify webport to use: ") or 5000
+        web_port = input("Please specify webport to use: ") or 5000
+        web_host = input("Should be Web UI accesible from other devices?: ")
+        if web_host == "y" or web_host == "yes" or web_host == "True":
+            web_host = "0.0.0.0"
 
     #Add basic information
     config.add_section("General")
@@ -35,7 +38,8 @@ def create():
     config.set("Web", "created", get_time())
     config.set("Web", "modified", get_time())
     config.set("Web", "enabled", str(web_enabled))
-    config.set("Web", "port", web_port)
+    config.set("Web", "port", web_port or "5000")
+    config.set("Web", "host", web_host or "127.0.0.1")
     config.set("Web", "debug", str(True))
 
     #Rock for People Section

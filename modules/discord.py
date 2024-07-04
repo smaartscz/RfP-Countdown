@@ -49,7 +49,6 @@ def prepare_webhook():
 
     #Calculate days until event
     days, hours = remaining_time(unix_time=unix_date)
-    days = 100
     print(colors.yellow + f"Remaining days: {days}" + colors.reset)
     
     #Check if there are any gif
