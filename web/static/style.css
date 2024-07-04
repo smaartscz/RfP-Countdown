@@ -99,6 +99,16 @@ pre {
     color: #E6E8E6;
 }
 
+.btn-submit {
+    text-decoration: none;
+}
+
+.btn-cancel {
+    background-color: #FF5555;
+}
+.btn-cancel:hover {
+    background-color: #c82333; /* Darker red */
+}
 /* Statistics styles */
 .statistics-wrapper {
     background-color: #1F1F1F;
@@ -197,17 +207,54 @@ pre {
     object-fit: contain; /* Ensure the image fits within the specified dimensions */
 }
 
-.btn-upload {
+.btn-green {
     background-color: #28a745; /* Green color */
     margin-top: 10px; /* Add margin to separate the button from the file input */
 }
+.btn-submit img {
+    display: none;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 10px;
+    object-fit: contain;
+}
 
-.btn-upload:hover {
+.btn-submit.has-image {
+    background-color: transparent;
+    padding: 0;
+}
+.btn-green:hover {
     background-color: #218838; /* Darker green */
 }
 
 input[type="file"] {
     display: none; /* Hide the actual file input */
+}
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #444A52;
+    border-radius: 5px;
+    background-color: #333740;
+    color: #E6E8E6;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+input[type="number"]:focus {
+    border-color: #007bff; /* Blue border on focus */
+}
+
+.form-group label {
+    display: block;
+    font-size: 1rem;
+    color: #E6E8E6;
+    margin-bottom: 5px;
+    font-weight: 500;
 }
 /* Ensuring buttons are displayed in a single column on narrow screens */
 @media (max-width: 768px) {
@@ -278,4 +325,7 @@ input[type="file"] {
 
 .btn-delete {
     background-color: #FF5555;
+}
+.btn-delete:hover {
+    background-color: #c82333; /* Darker red */
 }

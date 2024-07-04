@@ -8,30 +8,30 @@
     <div class="container">
         <h1>Special Days</h1>
         <div class="section-container">
-                <form method="POST" enctype="multipart/form-data" action="{{ url_for('special_days') }}" class="form-inline day-item">
-                    <div class="form-group">
-                        <label for="day">Day:</label>
-                        <input type="number" id="day" name="day" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="image" class="btn btn-upload">Choose file</label>
+            <form method="POST" enctype="multipart/form-data" action="{{ url_for('special_days') }}" class="form-inline day-item">
+                <div class="form-group">
+                    <label for="day" class="day-name">Day:</label>
+                    <input type="number" id="day" name="day" class="day-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="image" id="image-label" class="btn btn-submit">
+                        <span id="choose-file-text">Choose file</span>
                         <input type="file" id="image" name="image" accept="image/*" required onchange="displayFileNameAndPreview()" style="display: none;">
-                    </div>
-                    <div class="form-group">
                         <img id="file-preview" class="file-preview" src="" alt="Image Preview" style="display:none;">
-                    </div>
-                    <button type="submit" class="btn btn-upload">Add Special Day</button>
-                </form>
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-green">Add Special Day</button>
+            </form>
         </div>
         <div class="days-list">
             {% for day, image in days.items() %}
                 <div class="day-item">
-                    <div class="day-name">{{ day }}</div>
+                    <div class="day-name">Day: {{ day }}</div>
                     <div class="day-image">
                         <img src="{{ url_for('serve_gifs', filename=image.split('/')[-1]) }}" alt="{{ day }}">
                     </div>
                     <div class="buttons">
-                        <a href="{{ url_for('serve_gifs', filename=image.split('/')[-1]) }}" download="{{ day }}" class="btn">Download</a>
+                        <a href="{{ url_for('serve_gifs', filename=image.split('/')[-1]) }}" download="{{ day }}" class="btn btn-submit">Download</a>
                         <form method="POST" action="{{ url_for('delete_day', day=day) }}">
                             <button type="submit" class="btn btn-delete">Delete</button>
                         </form>
@@ -39,27 +39,30 @@
                 </div>
             {% endfor %}
         </div>
-        <button class="btn btn-submit" onclick="history.back()">Go back</button>
+        <button class="btn btn-cancel" onclick="history.back()">Go back</button>
     </div>
 
     <script>
         function displayFileNameAndPreview() {
             const input = document.getElementById('image');
-            const fileName = document.getElementById('file-name');
+            const fileLabel = document.getElementById('image-label');
+            const chooseFileText = document.getElementById('choose-file-text');
             const filePreview = document.getElementById('file-preview');
             
             if (input.files && input.files[0]) {
-
                 const reader = new FileReader();
                 reader.onload = function (e) {
                     filePreview.src = e.target.result;
                     filePreview.style.display = 'block';
+                    chooseFileText.style.display = 'none';
+                    fileLabel.classList.add('has-image');
                 };
                 reader.readAsDataURL(input.files[0]);
             } else {
-                fileName.textContent = '';
                 filePreview.src = '';
                 filePreview.style.display = 'none';
+                chooseFileText.style.display = 'block';
+                fileLabel.classList.remove('has-image');
             }
         }
     </script>
