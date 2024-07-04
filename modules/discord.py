@@ -3,12 +3,11 @@ import modules.configuration as configuration
 import modules.colors as colors
 from modules.f_time import remaining_time, get_time
 import modules.streak as streak
-def send_webhook(type="None", days=0, gif_url="None", unix_time="None"):
+def send_webhook(type="None", days=0, gif_url="None", unix_time="None", userid = "None"):
     role = configuration.get_value("General", "role_id")
     webhook_url = configuration.get_value("General", "webhook")
     unix_time = configuration.get_value("RockForPeople", "unix_date")
-    #Create new instance
-
+    type = type.lower()
     #Startup message
     if type == "startup":
         webhook = DiscordWebhook(url=webhook_url, content=f'<:peepoHey:925562717778104321>📣 ZDENOOOOOOOOOOOOOO')
@@ -18,6 +17,13 @@ def send_webhook(type="None", days=0, gif_url="None", unix_time="None"):
         print(colors.green + f"Webhook sent! Response: {response}" + colors.reset)
         return
     
+    #Manual ping
+    if type == "manual":
+        message = f"Čau <@{userid}>! <a:rabbitvibe:1213174868669890601> Rock For People 2025 je za {days} dní. (Podle discordu: <t:{unix_time}:R>)"
+        webhook = DiscordWebhook(url=webhook_url, content=message)  
+        #Send webhook
+        response = webhook.execute()
+        print(colors.green + f"Webhook sent! Response: {response}" + colors.reset)
     #Countdown message
     if type == "countdown":
         if gif_url != None:
@@ -57,3 +63,11 @@ def prepare_webhook():
     #Get color based if its today or no
     print(colors.yellow + "Sending webhook!" + colors.reset)
     send_webhook(type="countdown", days=days, gif_url=gif_url, unix_time=unix_date)
+
+def manual(everyone="False", userid="None"):
+    if everyone == "True":
+        prepare_webhook()
+    elif userid != "None":
+        unix_date = configuration.get_value("RockForPeople", "unix_date")
+        days, hours = remaining_time(unix_time=unix_date)
+        send_webhook(type="manual",days=days, userid=userid)

@@ -182,9 +182,30 @@ pre {
 .form-inline {
     display: flex;
     align-items: center;
-    gap: 20px; /* Add spacing between elements */
-    justify-content: space-between;
+    gap: 10px; /* Reduce spacing */
+    justify-content: center; /* Center align elements */
     flex-wrap: wrap;
+}
+/* Inline label styling */
+.form-label-inline {
+    margin-right: 10px;
+}
+
+/* Form group styling */
+.form-group-inline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.form-group-inline label,
+.form-group label {
+    display: block;
+    font-size: 1rem;
+    color: #E6E8E6;
+    margin-bottom: 5px;
+    font-weight: 500;
 }
 
 .form-group {
@@ -328,4 +349,85 @@ input[type="number"]:focus {
 }
 .btn-delete:hover {
     background-color: #c82333; /* Darker red */
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+    appearance: none;
+    background-color: #333740;
+    margin: 0;
+    font: inherit;
+    color: #E6E8E6;
+    width: 1.15em;
+    height: 1.15em;
+    border: 0.15em solid #E6E8E6;
+    border-radius: 0.15em;
+    transform: translateY(-0.075em);
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+}
+
+input[type="checkbox"]::before {
+    content: "";
+    width: 0.65em;
+    height: 0.65em;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 22%, 80% 0%, 43% 62%);
+    transform: scale(0);
+    transform-origin: bottom left;
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em #28a745;
+    /* Set the color of the checkmark */
+    background-color: #28a745;
+}
+
+input[type="checkbox"]:checked::before {
+    transform: scale(1);
+}
+
+/* Disabled checkbox styling */
+input[type="checkbox"]:disabled:before {
+    background-color: #444A52; /* Gray background for disabled state */
+    border-color: #444A52;
+    content: '✖'; /* Red X for disabled state */
+    font-size: 16px;
+    color: #FF5555; /* Red color for X */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+    appearance: none;
+    background-color: #333740;
+    margin: 0;
+    font: inherit;
+    color: #E6E8E6;
+    width: 1.15em;
+    height: 1.15em;
+    border: 0.15em solid #E6E8E6;
+    border-radius: 0.15em;
+    transform: translateY(-0.075em);
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+    position: relative;
+}
+
+input[type="checkbox"]::before {
+    content: "";
+    width: 0.65em;
+    height: 0.65em;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 22%, 80% 0%, 43% 62%);
+    transform: scale(0);
+    transform-origin: bottom left;
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em #28a745;
+    /* Set the color of the checkmark */
+    background-color: #28a745;
+}
+
+input[type="checkbox"]:checked::before {
+    transform: scale(1);
 }
