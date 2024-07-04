@@ -19,7 +19,7 @@ def send_webhook(type="None", days=0, gif_url="None", unix_time="None", userid =
     
     #Manual ping
     if type == "manual":
-        message = f"Čau <@{userid}> <a:rabbitvibe:1213174868669890601>, Rock For People 2025 je za {days} dní. (Podle discordu: <t:{unix_time}:R>)"
+        message = f"Čau <@{userid}>! <a:rabbitvibe:1213174868669890601> Rock For People 2025 je za {days} dní. (Podle discordu: <t:{unix_time}:R>)"
         webhook = DiscordWebhook(url=webhook_url, content=message)  
         #Send webhook
         response = webhook.execute()

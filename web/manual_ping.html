@@ -25,15 +25,13 @@
         <h1>Manual Ping</h1>
         <form method="POST" action="{{ url_for('manual_ping') }}">
             <div class="section-container">
-                <div class="form-inline">
-                    <div class="form-group form-group-inline">
-                        <label for="everyone" class="form-label-inline">Ping everyone:</label>
-                        <input type="checkbox" id="everyone" name="everyone" onclick="toggleUserIdField()">
-                    </div>
-                    <div class="form-group">
-                        <label for="userId">User ID:</label>
-                        <input type="number" id="userId" name="userId" oninput="togglePingEveryoneCheckbox()">
-                    </div>
+                <div class="form-group form-group-inline">
+                    <label for="everyone" class="form-label-inline">Ping everyone:</label>
+                    <input type="checkbox" id="everyone" name="everyone" onclick="toggleUserIdField()">
+                </div>
+                <div class="form-group">
+                    <label for="userId">User ID:</label>
+                    <input type="number" id="userId" name="userId" oninput="togglePingEveryoneCheckbox()">
                 </div>
                 <div class="grid">
                     <button type="button" class="btn btn-cancel" onclick="history.back()">Go back</button>
