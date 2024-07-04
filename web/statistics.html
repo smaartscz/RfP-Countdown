@@ -14,9 +14,9 @@
                         <div class="stat-card {% if item.highest_streak %} highest-streak {% endif %}">
                             <div class="stat-key {% if item.highest_streak %} highest-streak-key {% endif %}">
                                 {% if item.key == "last_ping" %}
-                                    Last Discord Ping
+                                    Last Discord ping
                                 {% elif item.key == "highest_streak_date" %}
-                                    Highest Streak
+                                    Highest streak date
                                 {% else %}
                                     {{ item.key|replace("_", " ")|title }}
                                 {% endif %}
