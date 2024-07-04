@@ -164,3 +164,84 @@ pre {
     font-weight: bold;
     color: #FFFFFF;
 }
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    color: #E6E8E6;
+    font-size: 1rem;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #E6E8E6;
+    background-color: #1F1F1F;
+    color: #E6E8E6;
+    box-sizing: border-box;
+}
+
+.form-group input[type="file"] {
+    padding: 5px;
+    color: #E6E8E6;
+}
+
+.form-group input[type="text"] {
+    margin-bottom: 10px;
+}
+
+.days-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Day item styles */
+.day-item {
+    background-color: #1F1F1F;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.day-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.day-name {
+    font-size: 1.2rem;
+    color: #E6E8E6;
+    flex: 1;
+    text-align: left;
+}
+
+.day-image {
+    flex: 2;
+    text-align: center;
+}
+
+.day-image img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 10px;
+}
+
+.btn-delete {
+    background-color: #FF5555;
+}

@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 import modules.configuration as configuration
 import modules.colors as colors
+import os
 app = Flask(__name__, template_folder='../web/', static_folder='../web/static')
 
 #Print basic Index.html that will show us redirects.
@@ -84,6 +85,44 @@ def update_settings():
             configuration.modify(action="modify", section=section, key=key, value=value )
         pass
     return redirect(url_for('index'))
+
+# Add this route to serve static files from the gifs directory
+@app.route('/gifs/<filename>')
+def serve_gifs(filename):
+    return send_from_directory(os.path.join(app.root_path, '../gifs'), filename)
+
+# Routes for managing Special Days
+@app.route('/special-days', methods=['GET', 'POST'])
+def special_days():
+    if request.method == 'POST':
+        day = request.form['day']
+        image = request.files['image']
+        if image:
+            extension = image.filename.split('.')[-1]
+            filename = f"{day}.{extension}"
+            image_path = os.path.join('gifs', filename)
+            image.save(image_path)
+            configuration.save("SpecialDays", day, extension)
+        return redirect(url_for('special_days'))
+
+    keys = configuration.get_key("SpecialDays").strip().split('\n')
+    days = {}
+    for key in keys:
+        if key and key not in ["created", "modified"]:
+            extension = configuration.get_value("SpecialDays", key)
+            image_path = f"gifs/{key}.{extension}"
+            days[key] = image_path
+    return render_template('special_days.html', days=days)
+
+@app.route('/delete-day/<day>', methods=['POST'])
+def delete_day(day):
+    path = os.path.join("gifs")
+    extension = configuration.get_value(section="SpecialDays", key=day)
+    image_path = f"{path}/{day}.{extension}"
+    if image_path and os.path.exists(image_path):
+        os.remove(image_path)
+        configuration.modify(action="remove_key",section="SpecialDays",key=day)
+    return redirect(url_for('special_days'))
 
 def start():
     enabled = configuration.get_value(section="Web", key="enabled")

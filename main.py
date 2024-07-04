@@ -37,7 +37,7 @@ print(colors.yellow + "Setting up schedule!"+ colors.reset)
 schedule.every().day.at(scheduled_time).do(discord.prepare_webhook)
 
 #Reset streak
-#streak.reset()
+streak.reset()
 
 print(colors.green + "Startup successful!" + colors.reset)
 

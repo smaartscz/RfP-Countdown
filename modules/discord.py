@@ -38,10 +38,10 @@ def send_webhook(type="None", days=0, gif_url="None", unix_time="None"):
             #Send webhook
             response = webhook.execute()
             print(colors.green + f"Webhook sent! Response: {response}" + colors.reset)
-            if str(response) == "<Response [200]>":
-                streak.increase()
-            else:
-                print(colors.red + f"Error sending webhook. Error: {response}" + colors.reset)
+        if str(response) == "<Response [200]>":
+            streak.increase()
+        else:
+            print(colors.red + f"Error sending webhook. Error: {response}" + colors.reset)
 
 def prepare_webhook():
     #Load RfP date
@@ -49,6 +49,7 @@ def prepare_webhook():
 
     #Calculate days until event
     days, hours = remaining_time(unix_time=unix_date)
+    days = 100
     print(colors.yellow + f"Remaining days: {days}" + colors.reset)
     
     #Check if there are any gif

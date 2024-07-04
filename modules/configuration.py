@@ -67,6 +67,7 @@ def create():
     config.set("Statistics", "modified", get_time())
     config.set("Statistics", "streak", "0")
     config.set("Statistics", "highest_streak", "0")
+    config.set("Statistics", "highest_streak_date", "0")
     config.set("Statistics", "last_ping", "Never")
 
     #Save config
@@ -108,15 +109,27 @@ def modify(action="", section=None, key="", value=""):
     config.read("config.cfg")
     action = action.lower()
     if section != None:
+
         #Delete section
-        if action == "remove":
+        if action == "remove_section":
             print(colors.yellow + f"Removing section: {section}" + colors.reset)
-            config.remove_section(section)
+            config.remove_section(section=section)
             print(colors.green + "Section removed!" + colors.reset)
+
+        #Delete key
+        elif action == "remove_key":
+            if config.has_section(section):
+                print(colors.yellow + f"Removing key: {key} in section: {section}" + colors.reset)
+                config.remove_option(section=section, option=key)
+                with open("config.cfg", "w") as configfile:
+                    config.write(configfile)
+                print(colors.green + f"Key: {key} removed from section: {section}" + colors.reset)
+
         #Modify section
-        if action == "modify":
+        elif action == "modify":
             print(colors.yellow + f"Modifing section: {section}, key: {key}, value: {value}" + colors.reset)
             save(section, key, value)
+
         else:
             print(colors.red + f"Unknown action!{action}" + colors.reset)
     else:

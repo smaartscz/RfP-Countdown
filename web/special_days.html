@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Special Days</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Special Days</h1>
+            <div class="row">
+                <form method="POST" enctype="multipart/form-data" action="{{ url_for('special_days') }}">
+                <div class="form-group">
+                    <label for="day">Day:</label>
+                    <input type="text" id="day" name="day" required>
+                </div>
+                <div class="form-group">
+                    <label for="image">Image:</label>
+                    <input type="file" id="image" name="image" accept="image/*" required>
+                </div>
+            <button type="submit" class="btn btn-submit">Add Special Day</button>
+                </form>
+            </div>
+        <div class="days-list">
+            {% for day, image in days.items() %}
+                <div class="day-item">
+                    <div class="day-name">{{ day }}</div>
+                    <div class="day-image">
+                        <img src="{{ url_for('serve_gifs', filename=image.split('/')[-1]) }}" alt="{{ day }}">
+                    </div>
+                    <div class="buttons">
+                        <a href="{{ url_for('serve_gifs', filename=image.split('/')[-1]) }}" download="{{ day }}" class="btn">Download</a>
+                        <form method="POST" action="{{ url_for('delete_day', day=day) }}">
+                            <button type="submit" class="btn btn-delete">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <button class="btn btn-submit" onclick="location.href='/'">Go back</button>
+    </div>
+</body>
+</html>
