@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, send_from_
 import modules.configuration as configuration
 import modules.colors as colors
 import modules.schedule_handler as schedule_handler
-import os
+import os, datetime
 app = Flask(__name__, template_folder='../web/', static_folder='../web/static')
 
 #Print basic Index.html that will show us redirects.
@@ -70,6 +70,12 @@ def statistics():
     
     data.append(section_data)
     return render_template('statistics.html', data=data)
+
+@app.template_filter('datetimeformat')
+def datetimeformat(value, format='%B %d, %Y at %I:%M %p'):
+    """Format a datetime string to a more readable format, ignoring microseconds."""
+    dt = datetime.datetime.strptime(value.split('.')[0], '%Y-%m-%d %H:%M:%S')
+    return dt.strftime(format)
 
 #Update values
 @app.route('/update', methods=['POST'])

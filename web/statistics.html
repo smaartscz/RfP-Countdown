@@ -12,8 +12,22 @@
                 {% for section in data %}
                     {% for item in section['items'] %}
                         <div class="stat-card {% if item.highest_streak %} highest-streak {% endif %}">
-                            <div class="stat-key {% if item.highest_streak %} highest-streak-key {% endif %}">{{ item.key }}</div>
-                            <div class="stat-value">{{ item.value }}</div>
+                            <div class="stat-key {% if item.highest_streak %} highest-streak-key {% endif %}">
+                                {% if item.key == "last_ping" %}
+                                    Last Discord Ping
+                                {% elif item.key == "highest_streak_date" %}
+                                    Highest Streak
+                                {% else %}
+                                    {{ item.key|replace("_", " ")|title }}
+                                {% endif %}
+                            </div>
+                            <div class="stat-value">
+                                {% if item.key == "last_ping" or item.key == "highest_streak_date" %}
+                                    {{ item.value | datetimeformat }}
+                                {% else %}
+                                    {{ item.value }}
+                                {% endif %}
+                            </div>
                         </div>
                     {% endfor %}
                 {% endfor %}
