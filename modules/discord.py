@@ -1,8 +1,8 @@
 from discord_webhook import DiscordWebhook, DiscordEmbed
 import modules.configuration as configuration
 import modules.colors as colors
-from modules.f_time import remaining_time
-
+from modules.f_time import remaining_time, get_time
+import modules.streak as streak
 def send_webhook(type="None", days=0, gif_url="None", unix_time="None"):
     role = configuration.get_value("General", "role_id")
     webhook_url = configuration.get_value("General", "webhook")
@@ -38,6 +38,10 @@ def send_webhook(type="None", days=0, gif_url="None", unix_time="None"):
             #Send webhook
             response = webhook.execute()
             print(colors.green + f"Webhook sent! Response: {response}" + colors.reset)
+            if str(response) == "<Response [200]>":
+                streak.increase()
+            else:
+                print(colors.red + f"Error sending webhook. Error: {response}" + colors.reset)
 
 def prepare_webhook():
     #Load RfP date
@@ -48,7 +52,7 @@ def prepare_webhook():
     print(colors.yellow + f"Remaining days: {days}" + colors.reset)
     
     #Check if there are any gif
-    gif_url = configuration.get_value("RockForPeople", str(days))
+    gif_url = configuration.get_value("SpecialDays", str(days))
 
     #Get color based if its today or no
     print(colors.yellow + "Sending webhook!" + colors.reset)

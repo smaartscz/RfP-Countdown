@@ -2,6 +2,7 @@ import modules.configuration as configuration
 import modules.discord as discord
 from modules.basic import clear
 import modules.colors as colors
+import modules.streak as streak
 import os, schedule, time
 import modules.web as web
 import threading
@@ -34,6 +35,9 @@ discord.send_webhook(type="startup", gif_url=startup_gif)
 #Setup schedule
 print(colors.yellow + "Setting up schedule!"+ colors.reset)
 schedule.every().day.at(scheduled_time).do(discord.prepare_webhook)
+
+#Reset streak
+#streak.reset()
 
 print(colors.green + "Startup successful!" + colors.reset)
 

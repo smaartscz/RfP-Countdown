@@ -6,7 +6,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Settings Data</h1>
+        <h1>Settings</h1>
         <form method="POST" action="{{ url_for('update_settings') }}">
             {% for section in data %}
                 <h2>{{ section.section }}</h2>
@@ -23,7 +23,8 @@
                 </div>
             {% endfor %}
             <div class="row">
-                <button type="submit" class="btn">Submit</button>
+                <button type="submit" class="btn btn-submit">Submit</button>
+                <button onclick="history.back()" class="btn btn-cancel">Go back</button>
             </div>
         </form>
     </div>

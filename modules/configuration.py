@@ -12,11 +12,11 @@ def create():
     role_id = input("Role id: ")
     rfp_date = input("Unix date for RfP: ")
     ping_at = input("Ping at: ")
-    startup_gif = input("Type of startup image(png/jpg/gif):")
+    startup_gif = input("Type of startup image(png/jpg/gif): ")
     web_enabled = input(f"Do you wanna enable WebUI? {colors.red} Before enabling please make sure nobody can access it without your permission! For more informations visit my github {colors.reset}: ") or False
     if(web_enabled == "y" or web_enabled == "yes"):
         web_enabled = True
-    web_port = input("Please specify webport to use:") or 5000
+    web_port = input("Please specify webport to use: ") or 5000
 
     #Add basic information
     config.add_section("General")
@@ -36,28 +36,39 @@ def create():
     config.set("Web", "modified", get_time())
     config.set("Web", "enabled", str(web_enabled))
     config.set("Web", "port", web_port)
+    config.set("Web", "debug", str(True))
 
     #Rock for People Section
     config.add_section("RockForPeople")
     config.set("RockForPeople", "unix_date", rfp_date)
     config.set("RockForPeople", "created", get_time())
     config.set("RockForPeople", "modified", get_time())
-    config.set("RockForPeople", "300", "None")
-    config.set("RockForPeople", "250", "None")
-    config.set("RockForPeople", "200", "None")
-    config.set("RockForPeople", "150", "None")
-    config.set("RockForPeople", "100", "None")
-    config.set("RockForPeople", "50", "None")
-    config.set("RockForPeople", "31", "None")
-    config.set("RockForPeople", "14", "None")
-    config.set("RockForPeople", "7", "None")
-    config.set("RockForPeople", "5", "None")
-    config.set("RockForPeople", "4", "None")
-    config.set("RockForPeople", "3", "None")
-    config.set("RockForPeople", "2", "None")
-    config.set("RockForPeople", "1", "None")
-    config.set("RockForPeople", "0", "None")
+
+    config.add_section("SpecialDays")
+    config.set("SpecialDays", "300", "None")
+    config.set("SpecialDays", "250", "None")
+    config.set("SpecialDays", "200", "None")
+    config.set("SpecialDays", "150", "None")
+    config.set("SpecialDays", "100", "None")
+    config.set("SpecialDays", "50", "None")
+    config.set("SpecialDays", "31", "None")
+    config.set("SpecialDays", "14", "None")
+    config.set("SpecialDays", "7", "None")
+    config.set("SpecialDays", "5", "None")
+    config.set("SpecialDays", "4", "None")
+    config.set("SpecialDays", "3", "None")
+    config.set("SpecialDays", "2", "None")
+    config.set("SpecialDays", "1", "None")
+    config.set("SpecialDays", "0", "None")
     
+    #Statistics
+    config.add_section("Statistics")
+    config.set("Statistics", "created", get_time())
+    config.set("Statistics", "modified", get_time())
+    config.set("Statistics", "streak", "0")
+    config.set("Statistics", "highest_streak", "0")
+    config.set("Statistics", "last_ping", "Never")
+
     #Save config
     with open("config.cfg", "w") as f:
         config.write(f)
@@ -74,7 +85,7 @@ def load():
     return content
 
 def save(section, key, value):
-    print(colors.yellow + "Saving config!" + colors.reset)
+    print(colors.yellow + f"Saving value {value} for {key} from section {section} into config!" + colors.reset)
     config.read("config.cfg")
     section_name = section.replace(" ","_")
     try:

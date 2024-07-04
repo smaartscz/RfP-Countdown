@@ -97,3 +97,70 @@ pre {
     overflow-x: auto;
     color: #E6E8E6;
 }
+.statistics-wrapper {
+    background-color: #1F1F1F;
+    color: #E6E8E6;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.statistics-container {
+    padding: 20px;
+    width: 80%;
+    margin: 40px auto;
+    background-color: #292929;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.statistics-container h1 {
+    color: #FF5555;
+    font-size: 3rem;
+    margin-bottom: 40px;
+    font-weight: 700;
+}
+
+.grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, #004FFF 0%, #0044CC 100%); /* Default blue gradient */
+    border-radius: 15px;
+    padding: 20px;
+    margin: 10px;
+    width: 200px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.stat-card.highest-streak {
+    background: linear-gradient(135deg, #FFD700 0%, #FFAA00 100%); /* Golden gradient for highest streak */
+    border: 1px solid #FFD700;
+}
+
+.stat-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.stat-key {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #FFFFFF;
+}
+.stat-key-highest-streak {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #404552;
+}
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #FFFFFF;
+}
