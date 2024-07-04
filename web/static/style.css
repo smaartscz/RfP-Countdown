@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
+/* Container and general styles */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -32,6 +32,7 @@ h2 {
     border-bottom: 2px solid #444A52;
     padding-bottom: 5px;
 }
+/* Settings styles */
 .section-container {
     margin-bottom: 30px;
 }
@@ -97,6 +98,8 @@ pre {
     overflow-x: auto;
     color: #E6E8E6;
 }
+
+/* Statistics styles */
 .statistics-wrapper {
     background-color: #1F1F1F;
     color: #E6E8E6;
@@ -165,37 +168,68 @@ pre {
     color: #FFFFFF;
 }
 
+/* Special days styles */
+.form-inline {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Add spacing between elements */
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
 .form-group {
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-.form-group label {
-    color: #E6E8E6;
-    font-size: 1rem;
-    display: block;
-    margin-bottom: 5px;
-}
-
-.form-group input[type="text"],
-.form-group input[type="file"] {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #E6E8E6;
-    background-color: #1F1F1F;
-    color: #E6E8E6;
-    box-sizing: border-box;
-}
-
-.form-group input[type="file"] {
-    padding: 5px;
-    color: #E6E8E6;
-}
-
-.form-group input[type="text"] {
     margin-bottom: 10px;
+    flex: 1;
+    min-width: 150px;
 }
+
+.file-name,
+.file-preview {
+    flex: 1;
+    min-width: 150px;
+}
+
+.file-preview {
+    margin-top: 10px;
+    max-width: 200px;
+    max-height: 200px; /* Adjust height to fit within container */
+    border-radius: 10px;
+    object-fit: contain; /* Ensure the image fits within the specified dimensions */
+}
+
+.btn-upload {
+    background-color: #28a745; /* Green color */
+    margin-top: 10px; /* Add margin to separate the button from the file input */
+}
+
+.btn-upload:hover {
+    background-color: #218838; /* Darker green */
+}
+
+input[type="file"] {
+    display: none; /* Hide the actual file input */
+}
+/* Ensuring buttons are displayed in a single column on narrow screens */
+@media (max-width: 768px) {
+    .day-item {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .buttons {
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+    }
+    
+    .buttons a,
+    .buttons form {
+        width: auto;
+        margin: 0;
+    }
+}
+
 
 .days-list {
     display: flex;
