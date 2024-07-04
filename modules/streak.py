@@ -1,6 +1,7 @@
 import modules.configuration as configuration
 from modules.f_time import get_time
 import modules.colors as colors
+
 def increase():
     print(colors.yellow + "Wow, good job! Increasing streak." + colors.reset)
     current_streak = int(configuration.get_value(section="Statistics", key="streak"))
