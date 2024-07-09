@@ -3,7 +3,6 @@ from modules.f_time import get_time
 import modules.colors as colors
 config = ConfigParser()
 
-
 #Create config
 def create():
     config.read("config.cfg")

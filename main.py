@@ -35,9 +35,6 @@ discord.send_webhook(type="startup", gif_url=startup_gif)
 #Setup schedule
 schedule_handler.update()
 
-#Reset streak
-streak.reset()
-
 print(colors.green + "Startup successful!" + colors.reset)
 
 while True:
