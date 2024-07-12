@@ -12,6 +12,15 @@ def increase():
     configuration.save(section="Statistics",key="streak", value=str(new_streak))
     configuration.save(section="Statistics",key="last_ping", value=get_time())
 
+def check(day=None):
+    print(colors.yellow + "Checking if we can increase streak!" + colors.reset)
+    last_day = int(configuration.get_value(section="Statistics",key="last_day"))
+    if (last_day - 1) == day:
+        increase()
+    else:
+        reset()
+    configuration.save(section="Statistics",key="last_day", value=str(day))
+
 def reset():
     streak = int(configuration.get_value(section="Statistics", key="streak"))
     print(colors.red + f"Too bad! You have lost your streak of {streak} days." + colors.reset)
