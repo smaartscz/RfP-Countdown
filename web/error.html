@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RfP Countdown - Error</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1 class="error">Error!</h1>
+    <h2>Details:</h2>
+    <div class="container">
+        <div class="row">
+            <div class="column key">Action</div>
+            <div class="column new-value">{{ data['action'] }}</div>
+        </div>
+        {% if 'response' in data['details'] or 'userId' in data['details'] %}
+            <div class="row">
+                {% if 'response' in data['details'] %}
+                    <div class="column key">Response</div>
+                    <div class="column new-value">{{ data['details']['response'] }}</div>
+            </div>
+            <div class="row">
+                <div class="column key">Error Details</div>
+                <div class="column new-value">{{ data['details']['response_details'] }}</div>
+            </div>
+            {% endif %}
+        {% endif %}
+    </div>
+    <button onclick="history.back()" class="btn btn-cancel">Go back</button>
+</body>
+</html>
