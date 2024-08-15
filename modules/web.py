@@ -156,20 +156,17 @@ def manual_ping():
         for key, value in request.form.items():
             if key == "everyone" and value == "on":
                 data['action'] = "Global Discord ping"
-                data['details']['response'] = discord.manual(everyone="True")
+                response = discord.manual(everyone="True")
+                data['details']['response'] = response
+                data['details']['response_details'] = response.json()
             elif key == "userId":
                 data['action'] = "User ping Discord ping"
                 data['details']['userId'] = value
                 data['details']['response'] = discord.manual(userid=value)
         if str(data['details']['response']) == "<Response [200]>":
             return render_template('success.html', data=data )
-
-#Print basic success.html that will show us success response.
-@app.route('/success', methods=['POST'])
-def success():
-    '''Show success page'''
-    return render_template('success.html')
-
+        else:
+            return render_template('error.html', data=data )
 
 def start():
     enabled = configuration.get_value(section="Web", key="enabled")
