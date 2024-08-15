@@ -1,13 +1,18 @@
 from discord_webhook import DiscordWebhook, DiscordEmbed
 import modules.configuration as configuration
 import modules.colors as colors
-from modules.f_time import remaining_time, get_time
+from modules.f_time import remaining_time
 import modules.streak as streak
+import modules.logs as logs
+
+
 def send_webhook(type="None", days=0, gif_url="None", unix_time="None", userid = "None", manual = False):
     role = configuration.get_value("General", "role_id")
     webhook_url = configuration.get_value("General", "webhook")
     unix_time = configuration.get_value("RockForPeople", "unix_date")
     type = type.lower()
+
+    logs.logger.info("Starting discord webhook function")
 
     #Startup message
     if type == "startup":
@@ -20,6 +25,7 @@ def send_webhook(type="None", days=0, gif_url="None", unix_time="None", userid =
 
         #Send webhook
         response = webhook.execute()
+        logs.logger.info(f"Webhook sent! Response: {response}. Args: type={type}")
         print(colors.green + f"Webhook sent! Response: {response}" + colors.reset)
         return
     
@@ -33,6 +39,7 @@ def send_webhook(type="None", days=0, gif_url="None", unix_time="None", userid =
 
         #Send webhook
         response = webhook.execute()
+        logs.logger.info(f"Webhook sent! Response: {response}. Args: days={days}, type={type}, userId={userid}")
         print(colors.green + f"Webhook sent! Response: {response}" + colors.reset)
         return response
         
@@ -57,6 +64,7 @@ def send_webhook(type="None", days=0, gif_url="None", unix_time="None", userid =
 
             #Send webhook
             response = webhook.execute() 
+            logs.logger.info(f"Webhook sent! Response: {response}. Args: days={days}, type={type}")
             print(colors.green + f"Webhook sent! Response: {response}" + colors.reset)
         else:
 
@@ -68,14 +76,17 @@ def send_webhook(type="None", days=0, gif_url="None", unix_time="None", userid =
 
             #Send webhook
             response = webhook.execute()
+            
             print(colors.green + f"Sending webhook!" + colors.reset)
         if(manual == False):
             #Check if sending was successful
             if str(response) == "<Response [200]>":
                 streak.check(day=days)
+                logs.logger.info(f"Webhook sent successfully! Response: {response}. Args: days={days}, type={type}")
                 print(colors.green + f"Webhook sent! Response: {response}" + colors.reset)
             else:
-                print(colors.red + f"Error sending webhook. Error: {response}" + colors.reset)
+                logs.logger.critical(f"Webhook sent! Response: {response}. Full details: {response.json()} Args: days={days}, type={type}")
+                print(colors.red + f"Error sending webhook. Error: {response}, details: {response.json()}" + colors.reset)     
         return response
 
 def prepare_webhook(manual=False):
