@@ -82,18 +82,26 @@ def datetimeformat(value, format='%B %d, %Y at %I:%M %p'):
 @app.route('/update', methods=['POST'])
 def update_settings():
     '''Handle the submitted form data'''
-
+    data = {
+        "action" : None,
+        "details": {}
+    }
+    data['action'] = "Modifying settings"
     for key, value in request.form.items():
         if value:
-            #Format data for saving
-            key = key.split('%%')
-            section = key[0]
-            key = key[1]
+            key_parts = key.split('%%')
+            section = key_parts[0]
+            key = key_parts[1]
+
+            if section not in data['details']:
+                data['details'][section] = {}  # Initialize the section dictionary if it doesn't exist
+
+            data['details'][section][key] = value
             configuration.modify(action="modify", section=section, key=key, value=value )
             if section == "General" and key == "ping_at":
                 schedule_handler.update(time=value)
         pass
-    return redirect(url_for('index'))
+    return render_template('success.html', data=data )
 
 # Add this route to serve static files from the gifs directory
 @app.route('/gifs/<filename>')
@@ -133,20 +141,32 @@ def delete_day(day):
         configuration.modify(action="remove_key",section="SpecialDays",key=day)
     return redirect(url_for('special_days'))
 
-#Show statistics.
+#Show Manual ping page.
 @app.route('/manual_ping', methods=['POST', 'GET'])
 def manual_ping():
     '''Generate and process data for manual_ping HTML'''
-    
+    data = {
+        "action" : None,
+        "details": {}
+    }
+
     if request.method == "GET":
         return render_template('manual_ping.html')
     if request.method == "POST":
         for key, value in request.form.items():
             if key == "everyone" and value == "on":
-                discord.manual(everyone="True")
+                data['action'] = "Global Discord ping"
+                response = discord.manual(everyone="True")
+                data['details']['response'] = response
+                data['details']['response_details'] = response.json()
             elif key == "userId":
-                discord.manual(userid=value)
-        return render_template('manual_ping.html')
+                data['action'] = "User ping Discord ping"
+                data['details']['userId'] = value
+                data['details']['response'] = discord.manual(userid=value)
+        if str(data['details']['response']) == "<Response [200]>":
+            return render_template('success.html', data=data )
+        else:
+            return render_template('error.html', data=data )
 
 def start():
     enabled = configuration.get_value(section="Web", key="enabled")

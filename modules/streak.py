@@ -1,7 +1,7 @@
 import modules.configuration as configuration
 from modules.f_time import get_time
 import modules.colors as colors
-
+import modules.logs as logs
 def increase():
     print(colors.yellow + "Wow, good job! Increasing streak." + colors.reset)
     current_streak = int(configuration.get_value(section="Statistics", key="streak"))
@@ -14,10 +14,12 @@ def increase():
 
 def check(day=None):
     print(colors.yellow + "Checking if we can increase streak!" + colors.reset)
+    logs.logger.info("Checking if we can increase streak!")
     last_day = int(configuration.get_value(section="Statistics",key="last_day"))
     if (last_day - 1) == day:
         increase()
     else:
+        logs.logger.warn(f"Streak lost! Args: last_day={last_day}, day={day}")
         reset()
     configuration.save(section="Statistics",key="last_day", value=str(day))
 

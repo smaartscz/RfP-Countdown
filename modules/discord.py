@@ -1,13 +1,18 @@
 from discord_webhook import DiscordWebhook, DiscordEmbed
 import modules.configuration as configuration
 import modules.colors as colors
-from modules.f_time import remaining_time, get_time
+from modules.f_time import remaining_time
 import modules.streak as streak
-def send_webhook(type="None", days=0, gif_url="None", unix_time="None", userid = "None"):
+import modules.logs as logs
+
+
+def send_webhook(type="None", days=0, gif_url="None", unix_time="None", userid = "None", manual = False):
     role = configuration.get_value("General", "role_id")
     webhook_url = configuration.get_value("General", "webhook")
     unix_time = configuration.get_value("RockForPeople", "unix_date")
     type = type.lower()
+
+    logs.logger.info("Starting discord webhook function")
 
     #Startup message
     if type == "startup":
@@ -20,11 +25,12 @@ def send_webhook(type="None", days=0, gif_url="None", unix_time="None", userid =
 
         #Send webhook
         response = webhook.execute()
+        logs.logger.info(f"Webhook sent! Response: {response}. Args: type={type}")
         print(colors.green + f"Webhook sent! Response: {response}" + colors.reset)
         return
     
     #Manual ping
-    if type == "manual":
+    if type == "user_ping":
         #Special message for manual ping
         message = f"Čau <@{userid}>! <a:rabbitvibe:1213174868669890601> Rock For People 2025 je za {days} dní. (Podle discordu: <t:{unix_time}:R>)"
 
@@ -33,7 +39,9 @@ def send_webhook(type="None", days=0, gif_url="None", unix_time="None", userid =
 
         #Send webhook
         response = webhook.execute()
+        logs.logger.info(f"Webhook sent! Response: {response}. Args: days={days}, type={type}, userId={userid}")
         print(colors.green + f"Webhook sent! Response: {response}" + colors.reset)
+        return response
         
     #Countdown message
     if type == "countdown":
@@ -56,6 +64,7 @@ def send_webhook(type="None", days=0, gif_url="None", unix_time="None", userid =
 
             #Send webhook
             response = webhook.execute() 
+            logs.logger.info(f"Webhook sent! Response: {response}. Args: days={days}, type={type}")
             print(colors.green + f"Webhook sent! Response: {response}" + colors.reset)
         else:
 
@@ -67,16 +76,20 @@ def send_webhook(type="None", days=0, gif_url="None", unix_time="None", userid =
 
             #Send webhook
             response = webhook.execute()
+            
             print(colors.green + f"Sending webhook!" + colors.reset)
+        if(manual == False):
+            #Check if sending was successful
+            if str(response) == "<Response [200]>":
+                streak.check(day=days)
+                logs.logger.info(f"Webhook sent successfully! Response: {response}. Args: days={days}, type={type}")
+                print(colors.green + f"Webhook sent! Response: {response}" + colors.reset)
+            else:
+                logs.logger.critical(f"Webhook sent! Response: {response}. Full details: {response.json()} Args: days={days}, type={type}")
+                print(colors.red + f"Error sending webhook. Error: {response}, details: {response.json()}" + colors.reset)     
+        return response
 
-        #Check if sending was successful
-        if str(response) == "<Response [200]>":
-            streak.check(day=days)
-            print(colors.green + f"Webhook sent! Response: {response}" + colors.reset)
-        else:
-            print(colors.red + f"Error sending webhook. Error: {response}" + colors.reset)
-
-def prepare_webhook():
+def prepare_webhook(manual=False):
     #Load RfP date
     unix_date = configuration.get_value("RockForPeople","unix_date")
 
@@ -89,14 +102,19 @@ def prepare_webhook():
 
     #Get color based if its today or no
     print(colors.yellow + "Sending webhook!" + colors.reset)
+    if(manual):
+        response = send_webhook(type="countdown", days=days, gif_url=gif_url, unix_time=unix_date, manual = True)
+        return response
     send_webhook(type="countdown", days=days, gif_url=gif_url, unix_time=unix_date)
 
 def manual(everyone="False", userid="None"):
     if everyone == "True" and userid != "None":
         print(colors.red + "Select only one option!" + colors.reset)
     elif everyone == "True":
-        prepare_webhook()
+        response = prepare_webhook(manual=True)
+        return response
     elif userid != "None":
         unix_date = configuration.get_value("RockForPeople", "unix_date")
         days, hours = remaining_time(unix_time=unix_date)
-        send_webhook(type="manual",days=days, userid=userid)
+        response = send_webhook(type="user_ping",days=days, userid=userid, manual = True)
+        return response

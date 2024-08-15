@@ -2,11 +2,15 @@ import modules.configuration as configuration
 import modules.discord as discord
 from modules.basic import clear
 import modules.colors as colors
-import modules.streak as streak
 import modules.schedule_handler as schedule_handler
 import os, schedule, time
 import modules.web as web
 import threading
+import modules.logs as logs
+
+
+print(colors.green + "Starting logger!" + colors.reset)
+logs.start()
 
 if os.name != "nt":
      os.environ.get("TERM")
@@ -35,6 +39,7 @@ discord.send_webhook(type="startup", gif_url=startup_gif)
 #Setup schedule
 schedule_handler.update()
 
+logs.logger.info("Startup successful!")
 print(colors.green + "Startup successful!" + colors.reset)
 
 while True:

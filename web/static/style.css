@@ -25,6 +25,10 @@ h1 {
     margin-bottom: 20px;
     color: #E6E8E6;
 }
+.success {
+    color: #28a745; /* Green color */
+
+}
 h2 {
     font-size: 2rem;
     margin-bottom: 15px;
