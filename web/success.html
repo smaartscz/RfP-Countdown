@@ -1,48 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>RfP Countdown</title>
+    <title>RfP Countdown - Success</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <h1 class="success">Success!</h1>
-    <p>Details:</p>
+    <h2>Details:</h2>
     <div class="container">
         <div class="row">
             <div class="column key">Action</div>
             <div class="column new-value">{{ data['action'] }}</div>
         </div>
-    {% if data['details'] %}
-        {% if data['details'].keys()|length != 0 and ('response' in data['details'] or 'userId' in data['details']) %}
-            {% if 'response' in data['details'] %}
+        {% if 'response' in data['details'] or 'userId' in data['details'] %}
             <div class="row">
-                <div class="column key">Response</div>
-                <div class="column new-value">{{ data['details']['response'] }}</div>
+                {% if 'response' in data['details'] %}
+                    <div class="column key">Response</div>
+                    <div class="column new-value">{{ data['details']['response'] }}</div>
+                {% endif %}
             </div>
-            {% endif %}
-            {% if 'userId' in data['details'] %}
             <div class="row">
-                <div class="column key">User ID</div>
-                <div class="column new-value">{{ data['details']['userId'] }}</div>
+                {% if 'userId' in data['details'] %}
+                    <div class="column key">User ID</div>
+                    <div class="column new-value">{{ data['details']['userId'] }}</div>
+                {% endif %}
             </div>
-            {% endif %}
         {% else %}
-
-                {% for section, details in data['details'].items() %}
-                <div class="section-container">
-                    <h2>{{ section }}</h2>
-                    {% for key, value in details.items() %}
-                    <div class="row">
-                        <div class="column key">{{ key }}</div>
-                        <div class="column new-value">{{ value }}</div>
-                    </div>
-                    {% endfor %}
+            {% for section, details in data['details'].items() %}
+            <div class="section-container">
+                <h2>{{ section }}</h2>
+                {% for key, value in details.items() %}
+                <div class="row">
+                    <div class="column key">{{ key }}</div>
+                    <div class="column new-value">{{ value }}</div>
                 </div>
                 {% endfor %}
-            
+            </div>
+            {% endfor %}
         {% endif %}
-    {% endif %}
     </div>
+
     <button onclick="history.back()" class="btn btn-cancel">Go back</button>
 </body>
 </html>
