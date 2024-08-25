@@ -1,17 +1,20 @@
 import logging.handlers
 import logging, os
+import modules.configuration as configuration
 
 logger = logging.getLogger()
 
 def start():
+    configuration.load()
+    debug = configuration.get_value("General", "debug") or False
+    
     if not os.path.exists("logs"):
         os.makedirs("logs")
     
     # Create a TimedRotatingFileHandler to create a new log file every day
     handler = logging.handlers.TimedRotatingFileHandler(
         filename="logs/rfp.log", 
-        when="midnight",  # Rotate at midnight
-        interval=1,       # Rotate every day
+        when="w0",  # Rotate at midnight
         backupCount=31    # Keep the last 31 log files
     )
     
@@ -21,8 +24,13 @@ def start():
         datefmt='%m/%d/%Y %I:%M:%S %p'
     )
     handler.setFormatter(formatter)
-    handler.setLevel(logging.INFO)
     
     # Add the handler to the logger
     logger.addHandler(handler)
-    logger.setLevel(logging.INFO)
+
+    if debug:
+        handler.setLevel(logging.DEBUG)
+        logger.setLevel(logging.DEBUG)
+    else:
+        handler.setLevel(logging.INFO)
+        logger.setLevel(logging.INFO)

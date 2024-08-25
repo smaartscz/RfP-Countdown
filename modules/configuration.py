@@ -31,6 +31,7 @@ def create():
     config.set("General", "role_id", role_id)
     config.set("General", "ping_at", ping_at)
     config.set("General", "startup", startup_gif)
+    
 
     #Web section
     config.add_section("Web")
